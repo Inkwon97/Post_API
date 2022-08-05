@@ -1,0 +1,45 @@
+package com.example.postapi.controller;
+
+import com.example.postapi.controller.response.ResponseDto;
+import com.example.postapi.domain.Post;
+import com.example.postapi.repository.PostHeartRepository;
+import com.example.postapi.repository.PostRepository;
+import com.example.postapi.service.HeartService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+
+@RestController
+@Slf4j
+@RequiredArgsConstructor
+public class HeartController {
+
+    private final HeartService heartService;
+    private final PostHeartRepository postHeartRepository;
+    private final PostRepository postRepository;
+
+    // 게시글 좋아요
+    @PostMapping("/api/{postId}/heart")
+    public ResponseDto<?> postHeart(@PathVariable Long postId, HttpServletRequest request) {
+        return heartService.addHeart(postId, request);
+//        return new ResponseEntity<>(postHeartRequestDto, HttpStatus.CREATED);
+    }
+
+    // 게시글 좋아요 개수 반환
+    @GetMapping("/api/{postId}/heart")
+    public int getHeart(@PathVariable Long postId) {
+        Post post = postRepository.findById(postId).get();
+        return postHeartRepository.countByPost(post);
+    }
+
+    // 게시글 좋아요 취소 => 유저 정보와 게시글의 정보가 동일하다면 제거
+    /*@DeleteMapping()
+    public ResponseEntity<PostHeart> deletePostHeart() {
+
+    }*/
+
+
+    // 대댓글 좋아요
+}

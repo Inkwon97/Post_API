@@ -14,6 +14,7 @@ import com.example.postapi.domain.Member;
 import com.example.postapi.domain.Post;
 import com.example.postapi.jwt.TokenProvider;
 import com.example.postapi.repository.CommentRepository;
+import com.example.postapi.repository.MemberRepository;
 import com.example.postapi.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
