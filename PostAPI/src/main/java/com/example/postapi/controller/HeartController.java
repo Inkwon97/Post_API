@@ -22,14 +22,20 @@ public class HeartController {
 
     // 게시글 좋아요
     @PostMapping("/api/{postId}/heart")
-    public ResponseDto<?> postHeart(@PathVariable Long postId, HttpServletRequest request) {
+    public ResponseDto<?> AddpostHeart(@PathVariable Long postId, HttpServletRequest request) {
         return heartService.addHeart(postId, request);
 //        return new ResponseEntity<>(postHeartRequestDto, HttpStatus.CREATED);
     }
 
+    // 게시글 좋아요 취소
+    @DeleteMapping("/api/{postId}/heart")
+    public ResponseDto<?> deletePostHeart(@PathVariable Long postId, HttpServletRequest request) {
+        return heartService.deleteHeart(postId, request);
+    }
+
     // 게시글 좋아요 개수 반환
     @GetMapping("/api/{postId}/heart")
-    public int getHeart(@PathVariable Long postId) {
+    public int getPostHeart(@PathVariable Long postId) {
         Post post = postRepository.findById(postId).get();
         return postHeartRepository.countByPost(post);
     }
