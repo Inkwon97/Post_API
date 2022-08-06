@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @NoArgsConstructor
@@ -46,7 +48,8 @@ public class ImageService {
 
     public String upload(MultipartFile file) {
         try (InputStream inputStream = file.getInputStream()) {
-            String fileName = file.getOriginalFilename();
+            String originalFileName = file.getOriginalFilename();
+            String fileName = buildFileName(Objects.requireNonNull(originalFileName));
 
             s3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, null)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
@@ -57,4 +60,11 @@ public class ImageService {
         }
     }
 
+    private String buildFileName(String originalFileName) {
+        int fileExtensionIndex = originalFileName.lastIndexOf(".");
+        String fileExtension = originalFileName.substring(fileExtensionIndex);
+        String uuid = UUID.randomUUID().toString().replaceAll("-","");
+
+        return uuid + fileExtension;
+    }
 }
