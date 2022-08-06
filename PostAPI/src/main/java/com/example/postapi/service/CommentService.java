@@ -50,10 +50,20 @@ public class CommentService {
 
     Comment comment = Comment.builder()
         .member(member)
-        .post(post)
         .content(requestDto.getContent())
         .build();
+    comment.savePost(post);
+
     commentRepository.save(comment);
+    List<Comment> comments = post.getComments();
+//    List<Comment> comments = comment.getPost().getComments();
+    for (Comment comment1 : comments) {
+      System.out.println(comment1.getId());
+      System.out.println(comment1.getContent());
+    }
+    System.out.println("comments.size = " + comments.size());
+    System.out.println("==================================");
+
     return ResponseDto.success(
         CommentResponseDto.builder()
             .id(comment.getId())

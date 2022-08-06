@@ -44,4 +44,9 @@ public class Comment extends Timestamped {
   public boolean validateMember(Member member) {
     return !this.member.equals(member);
   }
+
+  public void savePost(Post post) {
+    this.post = post;
+    post.getComments().add(this);
+  }
 }
