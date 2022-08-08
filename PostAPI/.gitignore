@@ -37,3 +37,6 @@ out/
 .vscode/
 
 src/test/**
+
+src/main/resources/application.properties
+src/main/resources/aws.yml

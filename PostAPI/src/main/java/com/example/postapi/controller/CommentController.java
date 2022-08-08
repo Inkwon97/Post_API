@@ -32,13 +32,13 @@ public class CommentController {
   }
 
   @RequestMapping(value = "/api/auth/comment/{id}", method = RequestMethod.PUT)
-  public ResponseDto<?> updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto,
+  public ResponseDto<?> updateSubComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto,
       HttpServletRequest request) {
     return commentService.updateComment(id, requestDto, request);
   }
 
   @RequestMapping(value = "/api/auth/comment/{id}", method = RequestMethod.DELETE)
-  public ResponseDto<?> deleteComment(@PathVariable Long id,
+  public ResponseDto<?> deleteSubComment(@PathVariable Long id,
       HttpServletRequest request) {
     return commentService.deleteComment(id, request);
   }
