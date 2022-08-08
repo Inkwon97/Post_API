@@ -20,6 +20,7 @@ public class MemberController {
 
   private final MemberService memberService;
 
+  //Valid는 유효성 검사
   @RequestMapping(value = "/api/member/signup", method = RequestMethod.POST)
   public ResponseDto<?> signup(@RequestBody @Valid MemberRequestDto requestDto) {
     return memberService.createMember(requestDto);
