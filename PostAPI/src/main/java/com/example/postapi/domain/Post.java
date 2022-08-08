@@ -42,6 +42,8 @@ public class Post extends Timestamped {
   @JsonIgnore
   private List<Comment> comments = new ArrayList<>();
 
+  private String imageUrl;
+
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
