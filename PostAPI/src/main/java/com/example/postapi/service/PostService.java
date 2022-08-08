@@ -14,6 +14,7 @@ import com.example.postapi.domain.Member;
 import com.example.postapi.domain.Post;
 import com.example.postapi.jwt.TokenProvider;
 import com.example.postapi.repository.CommentRepository;
+import com.example.postapi.repository.MemberRepository;
 import com.example.postapi.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,7 @@ public class PostService {
     Post post = Post.builder()
         .title(requestDto.getTitle())
         .content(requestDto.getContent())
+        .imageUrl(requestDto.getImageUrl())
         .member(member)
         .build();
     postRepository.save(post);
@@ -56,6 +58,7 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
+            .imageUrl(post.getImageUrl())
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())

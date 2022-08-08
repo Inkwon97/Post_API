@@ -1,5 +1,6 @@
 package com.example.postapi.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,9 +37,13 @@ public class Post extends Timestamped {
   @Column(nullable = false)
   private String content;
 
-  @JsonIgnore
+
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "post")
-  private List<Comment> comments;
+  @Column(nullable = false)
+  @JsonIgnore
+  private List<Comment> comments = new ArrayList<>();
+
+  private String imageUrl;
 
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)

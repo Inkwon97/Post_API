@@ -57,6 +57,9 @@ public class CommentService {
         .content(requestDto.getContent())
         .build();
     commentRepository.save(comment);
+
+    System.out.println(post.getComments());
+
     return ResponseDto.success(
         CommentResponseDto.builder()
             .id(comment.getId())

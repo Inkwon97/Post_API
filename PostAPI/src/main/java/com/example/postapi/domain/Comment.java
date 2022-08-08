@@ -3,15 +3,12 @@ package com.example.postapi.domain;
 import javax.persistence.*;
 
 import com.example.postapi.controller.request.CommentRequestDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Builder
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
