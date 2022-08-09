@@ -109,46 +109,7 @@ public class CommentService {
     }
     return ResponseDto.success(commentResponseDtoList);
   }
-/*
-  @Transactional
-  public ResponseDto<?> getComment(Long postId, Long id){
-    Post post = postService.isPresentPost(postId);
-    if (null == post) {
-      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
-    }
 
-    Comment comment = commentService.isPresentComment(id);
-    if (null == comment){
-      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
-    }
-
-    List<Reply> replyList = replyRepository.findAllByComment(comment);
-    List<ReplyResponseDto> replyResponseDtoList = new ArrayList<>();
-
-    for (Reply reply : replyList){
-      replyResponseDtoList.add(
-              ReplyResponseDto.builder()
-                      .id(reply.getId())
-                      .author(reply.getMember().getNickname())
-                      .content(reply.getContent())
-                      .createdAt(reply.getCreatedAt())
-                      .modifiedAt(reply.getModifiedAt())
-                      .build()
-      );
-    }
-
-    return ResponseDto.success(
-            CommentResponseDto.builder()
-                    .id(comment.getId())
-                    .author(comment.getMember().getNickname())
-                    .content(comment.getContent())
-                    .replyResponseDtoList(replyResponseDtoList)
-                    .createdAt(comment.getCreatedAt())
-                    .modifiedAt(comment.getModifiedAt())
-                    .build()
-    );
-  }
-*/
   @Transactional
   public ResponseDto<?> updateComment(Long id, CommentRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("Refresh-Token")) {
