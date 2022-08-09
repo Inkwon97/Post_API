@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RequiredArgsConstructor
 @RestController
 public class PostController {
@@ -19,7 +21,7 @@ public class PostController {
 
   @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
   public ResponseDto<?> createPost(@RequestParam("dto") String dto, @RequestParam("images") MultipartFile images,
-                                   HttpServletRequest request) throws JsonProcessingException {
+                                   HttpServletRequest request) throws IOException {
     PostRequestDto requestDto  = new ObjectMapper().readValue(dto, PostRequestDto.class);
     return postService.createPost(requestDto, images, request);
   }

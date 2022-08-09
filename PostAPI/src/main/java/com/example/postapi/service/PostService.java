@@ -1,5 +1,6 @@
 package com.example.postapi.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import com.example.postapi.controller.response.ResponseDto;
 import com.example.postapi.domain.Comment;
 import com.example.postapi.domain.Member;
 import com.example.postapi.domain.Post;
+import com.example.postapi.image.S3UploaderService;
 import com.example.postapi.jwt.TokenProvider;
 import com.example.postapi.repository.CommentRepository;
 import com.example.postapi.repository.MemberRepository;
@@ -29,10 +31,10 @@ public class PostService {
   private final CommentRepository commentRepository;
 
   private final TokenProvider tokenProvider;
-  private final ImageService imageService;
+  private final S3UploaderService s3UploaderService;
 
   @Transactional
-  public ResponseDto<?> createPost(PostRequestDto requestDto, MultipartFile images, HttpServletRequest request) {
+  public ResponseDto<?> createPost(PostRequestDto requestDto, MultipartFile images, HttpServletRequest request) throws IOException {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
           "로그인이 필요합니다.");
@@ -48,7 +50,9 @@ public class PostService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    String imgUrl = imageService.upload(images);
+//    String imgUrl = imageService.upload(images);
+//    String imgUrl = s3UploaderService.upload(images);
+    String imgUrl = s3UploaderService.upload(images, "static");
 
     Post post = Post.builder()
         .title(requestDto.getTitle())

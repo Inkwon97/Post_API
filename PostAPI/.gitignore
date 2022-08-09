@@ -38,3 +38,4 @@ out/
 src/test/**
 ### aws ###
 application-aws.yml
+aws.yml
