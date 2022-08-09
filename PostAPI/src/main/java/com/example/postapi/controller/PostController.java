@@ -5,12 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import com.example.postapi.controller.request.PostRequestDto;
 import com.example.postapi.controller.response.ResponseDto;
 import com.example.postapi.service.PostService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,9 +20,10 @@ public class PostController {
   private final PostService postService;
 
   @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
-  public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto,
-                                   HttpServletRequest request) {
-    return postService.createPost(requestDto, request);
+  public ResponseDto<?> createPost(@RequestParam("dto") String dto, @RequestParam("images") MultipartFile images,
+                                   HttpServletRequest request) throws IOException {
+    PostRequestDto requestDto  = new ObjectMapper().readValue(dto, PostRequestDto.class);
+    return postService.createPost(requestDto, images, request);
   }
 
   @RequestMapping(value = "/api/post/{id}", method = RequestMethod.GET)
