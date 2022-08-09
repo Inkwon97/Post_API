@@ -174,6 +174,16 @@ public class PostService {
     return ResponseDto.success("delete success");
   }
 
+  @Transactional
+  public ResponseDto<?> autoDeletePost(Long id) {
+    Post post = isPresentPost(id);
+    if (null == post) {
+      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
+    }
+    postRepository.delete(post);
+    return ResponseDto.success("게시물 <" + post.getTitle() + "> 이 삭제 되었습니다.");
+  }
+
   @Transactional(readOnly = true)
   public Post isPresentPost(Long id) {
     Optional<Post> optionalPost = postRepository.findById(id);
