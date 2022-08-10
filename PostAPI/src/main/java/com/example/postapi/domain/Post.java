@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.example.postapi.controller.request.PostHeartDto;
 import com.example.postapi.controller.request.PostRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,9 @@ public class Post extends Timestamped {
   @Column(nullable = false)
   private String content;
 
+  @Column
+  private Long heartCount = 0L;
+
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "post")
   @Column(nullable = false)
@@ -52,6 +56,20 @@ public class Post extends Timestamped {
   public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
     this.content = postRequestDto.getContent();
+  }
+
+  public void addHeart(PostHeartDto postHeartDto){
+    this.member = postHeartDto.getMember();
+    this.id = postHeartDto.getPost().getId();
+    this.heartCount++;
+    new PostHeart(postHeartDto);
+  }
+
+  public void cancleHeart(PostHeartDto postHeartDto){
+    this.member = postHeartDto.getMember();
+    this.id = postHeartDto.getPost().getId();
+    this.heartCount--;
+    new PostHeart(postHeartDto);
   }
 
   public boolean validateMember(Member member) {
