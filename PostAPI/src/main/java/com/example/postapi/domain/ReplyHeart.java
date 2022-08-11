@@ -1,6 +1,6 @@
 package com.example.postapi.domain;
 
-import com.example.postapi.controller.request.PostHeartRequestDto;
+import com.example.postapi.controller.request.ReplyHeartRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,35 +8,27 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-
 @Getter
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostHeart {
+public class ReplyHeart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 게시글 ID
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn(name = "reply_id")
+    private Reply reply;
 
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "reply_id")
-//    private Reply reply;
-
-    // 유저 정보
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public PostHeart(PostHeartRequestDto postHeartRequestDto) {
-        this.post = postHeartRequestDto.getPost();
-        this.member = postHeartRequestDto.getMember();
+    public ReplyHeart(ReplyHeartRequestDto replyHeartRequestDto) {
+        this.member = replyHeartRequestDto.getMember();
+        this.reply = replyHeartRequestDto.getReply();
     }
 }

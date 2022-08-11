@@ -17,6 +17,7 @@ public class PostResponseDto {
   private String content;
   private String imageUrl;
   private String author;
+  private Long heartCount;
   private List<CommentResponseDto> commentResponseDtoList;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;

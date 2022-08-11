@@ -31,14 +31,6 @@ public class Member extends Timestamped {
     @JsonIgnore
     private String password;
 
-    // 좋아요 부분
-    /*@OneToMany(
-            mappedBy = "member",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private List<PostHeart> postHearts;*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

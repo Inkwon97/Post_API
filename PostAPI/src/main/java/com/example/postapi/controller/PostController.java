@@ -1,16 +1,14 @@
 package com.example.postapi.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.example.postapi.controller.request.PostRequestDto;
 import com.example.postapi.controller.response.ResponseDto;
 import com.example.postapi.service.PostService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RequiredArgsConstructor
@@ -46,6 +44,11 @@ public class PostController {
   public ResponseDto<?> deletePost(@PathVariable Long id,
       HttpServletRequest request) {
     return postService.deletePost(id, request);
+  }
+
+  @GetMapping("/api/auth/post/heart/{id}")
+  public ResponseDto<?> addPostHeart(@PathVariable Long id, HttpServletRequest request){
+    return postService.addPostHeart(id, request);
   }
 
 }

@@ -1,6 +1,5 @@
 package com.example.postapi.repository;
 
-import com.example.postapi.domain.Comment;
 import com.example.postapi.domain.Member;
 import com.example.postapi.domain.Post;
 import com.example.postapi.domain.PostHeart;
@@ -15,4 +14,6 @@ public interface PostHeartRepository extends JpaRepository<PostHeart, Long> {
 
     List<PostHeart> findAllByMember(Member member);
 
+    Optional<PostHeart> findPostHeartByMemberAndPost(Member member, Post post);
+    void deleteByMemberAndPost(Member member, Post post);
 }

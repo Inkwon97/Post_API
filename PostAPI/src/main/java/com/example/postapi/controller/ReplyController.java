@@ -36,4 +36,9 @@ public class ReplyController {
         return replyService.deleteReply(id, request);
     }
 
+    @GetMapping("/api/auth/reply/heart/{id}")
+    public ResponseDto<?> addReplyHeart(@PathVariable Long id, HttpServletRequest request){
+        return replyService.addReplyHeart(id, request);
+    }
+
 }
