@@ -1,5 +1,6 @@
 package com.example.postapi.domain;
 
+import com.example.postapi.controller.request.ReplyHeartRequestDto;
 import com.example.postapi.controller.request.ReplyRequestDto;
 import lombok.*;
 
@@ -18,6 +19,9 @@ public class Reply extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+    @Column
+    private Long herartCount = 0L;
+
     @JoinColumn(name = "member_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -28,6 +32,18 @@ public class Reply extends Timestamped {
 
     public void update(ReplyRequestDto replyRequestDto){
         this.content = replyRequestDto.getContent();
+    }
+
+    public void addHeart(ReplyHeartRequestDto replyHeartRequestDto){
+        this.member = replyHeartRequestDto.getMember();
+        this.id = replyHeartRequestDto.getReply().getId();
+        this.herartCount++;
+    }
+
+    public void cancleHeart(ReplyHeartRequestDto replyHeartRequestDto){
+        this.member = replyHeartRequestDto.getMember();
+        this.id = replyHeartRequestDto.getReply().getId();
+        this.herartCount--;
     }
 
     public boolean validateMember(Member member) {

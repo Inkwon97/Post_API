@@ -93,6 +93,7 @@ public class CommentService {
                         .id(reply.getId())
                         .author(reply.getMember().getNickname())
                         .content(reply.getContent())
+                        .heartCount(reply.getHerartCount())
                         .createdAt(reply.getCreatedAt())
                         .modifiedAt(reply.getModifiedAt())
                         .build()
@@ -147,12 +148,13 @@ public class CommentService {
     comment.update(requestDto);
     return ResponseDto.success(
         CommentResponseDto.builder()
-            .id(comment.getId())
-            .author(comment.getMember().getNickname())
-            .content(comment.getContent())
-            .createdAt(comment.getCreatedAt())
-            .modifiedAt(comment.getModifiedAt())
-            .build()
+                .id(comment.getId())
+                .author(comment.getMember().getNickname())
+                .content(comment.getContent())
+                .heartCount(comment.getHerartCount())
+                .createdAt(comment.getCreatedAt())
+                .modifiedAt(comment.getModifiedAt())
+                .build()
     );
   }
 

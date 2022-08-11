@@ -15,6 +15,7 @@ public class ReplyResponseDto {
     private Long id;
     private String author;
     private String content;
+    private Long heartCount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

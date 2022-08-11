@@ -19,6 +19,9 @@ public class Comment extends Timestamped {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false)
+  private String content;
+
   @Column
   private Long herartCount = 0L;
 
@@ -32,9 +35,6 @@ public class Comment extends Timestamped {
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Reply> replies;
-
-  @Column(nullable = false)
-  private String content;
 
   public void update(CommentRequestDto commentRequestDto) {
     this.content = commentRequestDto.getContent();

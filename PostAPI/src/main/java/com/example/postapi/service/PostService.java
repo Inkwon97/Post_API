@@ -123,7 +123,7 @@ public class PostService {
   }
 
   @Transactional
-  public ResponseDto<Post> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
+  public ResponseDto<?> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
           "로그인이 필요합니다.");
@@ -149,7 +149,17 @@ public class PostService {
     }
 
     post.update(requestDto);
-    return ResponseDto.success(post);
+    return ResponseDto.success(
+            PostResponseDto.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .author(post.getMember().getNickname())
+                    .heartCount(post.getHeartCount())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .build()
+    );
   }
 
   @Transactional
