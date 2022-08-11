@@ -40,12 +40,4 @@ public class HeartController {
         return postHeartRepository.countByPost(post);
     }
 
-    // 게시글 좋아요 취소 => 유저 정보와 게시글의 정보가 동일하다면 제거
-    /*@DeleteMapping()
-    public ResponseEntity<PostHeart> deletePostHeart() {
-
-    }*/
-
-
-    // 대댓글 좋아요
 }
