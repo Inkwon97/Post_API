@@ -1,6 +1,6 @@
 package com.example.postapi.service;
 
-import com.example.postapi.controller.request.PostHeartDto;
+import com.example.postapi.controller.request.PostHeartRequestDto;
 import com.example.postapi.controller.request.PostRequestDto;
 import com.example.postapi.controller.response.CommentResponseDto;
 import com.example.postapi.controller.response.PostResponseDto;
@@ -93,12 +93,13 @@ public class PostService {
     for (Comment comment : commentList) {
       commentResponseDtoList.add(
           CommentResponseDto.builder()
-              .id(comment.getId())
-              .author(comment.getMember().getNickname())
-              .content(comment.getContent())
-              .createdAt(comment.getCreatedAt())
-              .modifiedAt(comment.getModifiedAt())
-              .build()
+                  .id(comment.getId())
+                  .author(comment.getMember().getNickname())
+                  .content(comment.getContent())
+                  .heartCount(comment.getHerartCount())
+                  .createdAt(comment.getCreatedAt())
+                  .modifiedAt(comment.getModifiedAt())
+                  .build()
       );
     }
 
@@ -203,19 +204,20 @@ public class PostService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
-    PostHeartDto postHeartDto = new PostHeartDto(member, post);
+    PostHeartRequestDto postHeartRequestDto = new PostHeartRequestDto(member, post);
 
     //좋아요 상태에서 한번 더 요청을 보내면 취소
     if (postHeartRepository.findPostHeartByMemberAndPost(member, post).isPresent()) {
       postHeartRepository.deleteByMemberAndPost(member, post);
-      post.cancleHeart(postHeartDto);
+      post.cancleHeart(postHeartRequestDto);
 
       return ResponseDto.success("좋아요 취소!");
     }
-    
+
     //좋아요를 한 적이 없으면 추가
-    post.addHeart(postHeartDto);
-    postHeartRepository.save(new PostHeart(postHeartDto));
+    post.addHeart(postHeartRequestDto);
+    PostHeart postHeart = new PostHeart(postHeartRequestDto);
+    postHeartRepository.save(postHeart);
 
     return ResponseDto.success("좋아요 완료!");
   }

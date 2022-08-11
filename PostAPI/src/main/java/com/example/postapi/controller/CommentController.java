@@ -43,4 +43,9 @@ public class CommentController {
       HttpServletRequest request) {
     return commentService.deleteComment(id, request);
   }
+
+  @GetMapping("/api/auth/comment/heart/{id}")
+  public ResponseDto<?> addCommentHeart(@PathVariable Long id, HttpServletRequest request){
+    return commentService.addCommnetHeart(id, request);
+  }
 }

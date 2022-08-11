@@ -13,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.example.postapi.controller.request.PostHeartDto;
+import com.example.postapi.controller.request.PostHeartRequestDto;
 import com.example.postapi.controller.request.PostRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -58,18 +58,18 @@ public class Post extends Timestamped {
     this.content = postRequestDto.getContent();
   }
 
-  public void addHeart(PostHeartDto postHeartDto){
-    this.member = postHeartDto.getMember();
-    this.id = postHeartDto.getPost().getId();
+  public void addHeart(PostHeartRequestDto postHeartRequestDto){
+    this.member = postHeartRequestDto.getMember();
+    this.id = postHeartRequestDto.getPost().getId();
     this.heartCount++;
-    new PostHeart(postHeartDto);
+//    new PostHeart(postHeartRequestDto);
   }
 
-  public void cancleHeart(PostHeartDto postHeartDto){
-    this.member = postHeartDto.getMember();
-    this.id = postHeartDto.getPost().getId();
+  public void cancleHeart(PostHeartRequestDto postHeartRequestDto){
+    this.member = postHeartRequestDto.getMember();
+    this.id = postHeartRequestDto.getPost().getId();
     this.heartCount--;
-    new PostHeart(postHeartDto);
+//    new PostHeart(postHeartRequestDto);
   }
 
   public boolean validateMember(Member member) {
