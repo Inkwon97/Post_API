@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIA3FKRA423PG3HOQXB
+      secretKey: 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
+    s3:
+      bucket: myspartaimage
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

@@ -1,5 +1,6 @@
 package com.example.postapi.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import com.example.postapi.controller.response.ResponseDto;
 import com.example.postapi.domain.Comment;
 import com.example.postapi.domain.Member;
 import com.example.postapi.domain.Post;
+import com.example.postapi.image.S3UploaderService;
 import com.example.postapi.jwt.TokenProvider;
 import com.example.postapi.repository.CommentRepository;
 import com.example.postapi.repository.MemberRepository;
@@ -19,6 +21,7 @@ import com.example.postapi.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +31,10 @@ public class PostService {
   private final CommentRepository commentRepository;
 
   private final TokenProvider tokenProvider;
+  private final S3UploaderService s3UploaderService;
 
   @Transactional
-  public ResponseDto<?> createPost(PostRequestDto requestDto, HttpServletRequest request) {
+  public ResponseDto<?> createPost(MultipartFile multipartFile, PostRequestDto requestDto, HttpServletRequest request) throws IOException {
     if (null == request.getHeader("Refresh-Token")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
           "로그인이 필요합니다.");
@@ -46,21 +50,25 @@ public class PostService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
+    String imageUrl = s3UploaderService.upload(multipartFile, "static");
+
     Post post = Post.builder()
-        .title(requestDto.getTitle())
-        .content(requestDto.getContent())
-        .member(member)
-        .build();
+            .title(requestDto.getTitle())
+            .content(requestDto.getContent())
+            .imageUrl(imageUrl)
+            .member(member)
+            .build();
     postRepository.save(post);
     return ResponseDto.success(
-        PostResponseDto.builder()
-            .id(post.getId())
-            .title(post.getTitle())
-            .content(post.getContent())
-            .author(post.getMember().getNickname())
-            .createdAt(post.getCreatedAt())
-            .modifiedAt(post.getModifiedAt())
-            .build()
+            PostResponseDto.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .imgUrl(imageUrl)
+                    .author(post.getMember().getNickname())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .build()
     );
   }
 
@@ -87,15 +95,16 @@ public class PostService {
     }
 
     return ResponseDto.success(
-        PostResponseDto.builder()
-            .id(post.getId())
-            .title(post.getTitle())
-            .content(post.getContent())
-            .commentResponseDtoList(commentResponseDtoList)
-            .author(post.getMember().getNickname())
-            .createdAt(post.getCreatedAt())
-            .modifiedAt(post.getModifiedAt())
-            .build()
+            PostResponseDto.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .imgUrl(post.getImageUrl())
+                    .commentResponseDtoList(commentResponseDtoList)
+                    .author(post.getMember().getNickname())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .build()
     );
   }
 

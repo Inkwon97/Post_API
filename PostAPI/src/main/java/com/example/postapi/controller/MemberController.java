@@ -27,7 +27,7 @@ public class MemberController {
 
   @RequestMapping(value = "/api/member/login", method = RequestMethod.POST)
   public ResponseDto<?> login(@RequestBody @Valid LoginRequestDto requestDto,
-      HttpServletResponse response
+                              HttpServletResponse response
   ) {
     return memberService.login(requestDto, response);
   }
@@ -40,5 +40,10 @@ public class MemberController {
   @RequestMapping(value = "/api/auth/member/logout", method = RequestMethod.POST)
   public ResponseDto<?> logout(HttpServletRequest request) {
     return memberService.logout(request);
+  }
+
+  @RequestMapping(value = "/api/auth/member/mypage", method = RequestMethod.GET)
+  public ResponseDto<?> mypage(HttpServletRequest request) {
+    return memberService.mypage(request);
   }
 }

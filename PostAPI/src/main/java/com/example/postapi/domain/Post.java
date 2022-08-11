@@ -37,6 +37,8 @@ public class Post extends Timestamped {
   @Column(nullable = false)
   private String content;
 
+  private String imageUrl;
+
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "post")
   @Column(nullable = false)
   @JsonIgnore
@@ -45,6 +47,8 @@ public class Post extends Timestamped {
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
+
+
 
   public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
